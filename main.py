@@ -173,9 +173,11 @@ def TaskExecution():
             speak(f"Your ip address is {ip}")
             print(f"Your ip address is {ip}")
 
-        elif "who " in query or "what " in query or "wikipedia " in query or "tell me about" in query or "give me information about" in query:
+        elif "who " in query or  query or "wikipedia " in query or "tell me about" in query or "give me information about" in query:
             try:
                 query = query.replace("wikipedia", "")
+                query = query.replace("according", "")
+                query = query.replace("to", "")
                 query = query.replace("friday", "")
                 query = query.replace("tell me about", "")
                 query = query.replace("give me information about", "")
@@ -446,7 +448,7 @@ if __name__ == "__main__":
 
         permission = takecommand().lower()
 
-        if "wake up" in permission or "hey friday" in permission or "are you here" in permission or "are you there" in permission or "friday you up" in permission or "you there" in permission or "you here" in permission or "friday you app" in permission or "i am back" in permission:
+        if "wake up" in permission or "hey friday" in permission or "are you here" in permission or "are you there" in permission or "friday you up" in permission or "you there" in permission or "you here" in permission or "friday you app" in permission or "i am back" in permission or "friday" in permission:
             wake_text = random.choice(
                 ['Online and ready sir!', "At your service sir."])
             speak(wake_text)
