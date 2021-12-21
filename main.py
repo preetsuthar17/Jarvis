@@ -25,7 +25,7 @@ import subprocess
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 190)
+engine.setProperty('rate', 180)
 
 def speak(audio):
     engine.say(audio)
@@ -43,7 +43,6 @@ def wish():
     else:
         print(f"Good Evening sir. it has been {strTime}")
         speak(f"Good Evening sir. it has been {strTime}")
-
 
 def schedule_checker():
     today_day = date.today().strftime("%A")
@@ -84,12 +83,11 @@ def convert_size(size_bytes):
 
 def takecommand():
     r = sr.Recognizer()
-    # r.pause_threshold = 0.6
     with sr.Microphone() as source:
         print("[Listening]...")
         audio = r.listen(source)
-        r.pause_threshold = 1
-        # r.adjust_for_ambient_noise(source)  
+        r.pause_threshold = 0.6
+        r.adjust_for_ambient_noise(source)  
 
     try:
         print("...")
@@ -175,14 +173,16 @@ def TaskExecution():
             speak(f"Your ip address is {ip}")
             print(f"Your ip address is {ip}")
 
-        elif "wikipedia" in query:
+        elif "who " in query or "what " in query or "wikipedia " in query or "tell me about" in query or "give me information about" in query:
             try:
-                speak('Wait a moment let me search...')
                 query = query.replace("wikipedia", "")
-                result = wikipedia.summary(query, sentences=2)
-                speak("according to wikipedia...")
-                speak(result)
+                query = query.replace("friday", "")
+                query = query.replace("tell me about", "")
+                query = query.replace("give me information about", "")
+                result = wikipedia.summary(query, sentences=5)
+                speak('According to me')
                 print(result)
+                speak(result)
             except Exception:
                 speak("No result Found...")
 
@@ -219,7 +219,7 @@ def TaskExecution():
             text = random.choice(["Hello sir!", "Hey there!", "Hello..."])
             speak(text)
 
-        elif "thanks" in query or "thanks jarvis" in query or "thank you jarvis" in query:
+        elif "thanks" in query or "thanks friday" in query or "thank you friday" in query:
             thanks = random.choice(
                 ["Your welcome sir", "no problem sir", "Anytime you want", "i am glad to here", "enjoy yourself, Sir"])
             speak(thanks)
@@ -231,13 +231,13 @@ def TaskExecution():
             speak("glad to here it. what's next command?")
 
         elif "what is your name" in query:
-            speak("My name is Jarvis.")
+            speak("My name is friday.")
 
         elif "what can you do" in query:
             speak("I can do so many things such as calculating sums, doing computer tasks, some jokes and so many other things.")
 
         elif "who are you" in query:
-            speak("I Am jarvis, I am your personal assistant, Made by my Boss, Preet")
+            speak("I Am friday, I am your personal assistant, Made by my Boss, Preet")
 
         elif "i love you" in query:
             speak("It's hard to understand..")
@@ -332,7 +332,7 @@ def TaskExecution():
             speak(location)
             webbrowser.open("https://www.google.nl/maps/place/" + location)
 
-        elif "open site" in query:
+        elif "open website" in query:
             query = query.replace("dot", ".")
             query = query[12:]
             speak(f"opening {query}")
@@ -368,18 +368,14 @@ def TaskExecution():
             pyautogui.keyUp('enter')
             speak("Done, Boss")
 
-        elif "calculate" in query:
-            try:
-                app_id = "9U8EKY-LG937R6772"
-                client = wolframalpha.Client(app_id)
-                indx = query.lower().split().index('calculate')
-                query = query.split()[indx + 1:]
-                res = client.query(' '.join(query))
-                answer = next(res.results).text
-                print("The answer is " + answer)
-                speak("The answer is " + answer)
-            except Exception:
-                speak("Boss, API Went wrong can't find any answer.")
+        elif 'calculate' in query:
+            question=query
+            app_id="9U8EKY-LG937R6772 "
+            client = wolframalpha.Client(app_id)
+            res = client.query(question)
+            answer = next(res.results).text
+            speak(f"The answer is {answer}")
+            print(f"The answer is {answer}")
 
         elif 'empty recycle bin' in query:
             try:
@@ -412,7 +408,7 @@ def TaskExecution():
         elif "write a note" in query:
             speak("What should i write, sir")
             note = takecommand()
-            file = open('jarvis.txt', 'w')
+            file = open('friday.txt', 'w')
             speak("Sir, Should i include date and time")
             snfm = takecommand()
             if 'yes' in snfm or 'sure' in snfm:
@@ -424,20 +420,33 @@ def TaskExecution():
                 file.write(note)
 
         elif 'launch' in query:
-            pyautogui.hotkey("win" + "s")
+            query.replace("launch", "")
+            query.replace(" ", "")
+            pyautogui.hotkey("win", "s")
             time.sleep(1)
-            app=query[6:]
-            pyautogui.write(app)
+            # app=query[6:]
+            pyautogui.write(app.lower())
             pyautogui.keyDown("enter")
             pyautogui.keyUp("enter")
             speak('I have launched the desired application')
+
+        elif 'set reminder' in query:
+            speak("What shall I remind you about?")
+            text = takecommand()
+            speak("In how many minutes?")
+            local_time = int(takecommand())
+            local_time = local_time * 60
+            time.sleep(local_time)
+            speak(f"it's a reminder for {text}")
+            speak(f"it's a reminder for {text}")
+            speak(f"it's a reminder for {text}")
 
 if __name__ == "__main__":
     while True:
 
         permission = takecommand().lower()
 
-        if "wake up" in permission or "hey jarvis" in permission or "are you here" in permission or "are you there" in permission or "jarvis you up" in permission or "you there" in permission or "you here" in permission or "jarvis you app" in permission or "i am back" in permission:
+        if "wake up" in permission or "hey friday" in permission or "are you here" in permission or "are you there" in permission or "friday you up" in permission or "you there" in permission or "you here" in permission or "friday you app" in permission or "i am back" in permission:
             wake_text = random.choice(
                 ['Online and ready sir!', "At your service sir."])
             speak(wake_text)
