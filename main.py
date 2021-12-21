@@ -108,6 +108,8 @@ def TaskExecution():
         webbrowser.register(
             'chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 
+            
+
         app = wolframalpha.Client('9U8EKY-LG937R6772')
 
         if "good morning" in query:
@@ -173,20 +175,20 @@ def TaskExecution():
             speak(f"Your ip address is {ip}")
             print(f"Your ip address is {ip}")
 
-        elif "who " in query or  query or "wikipedia " in query or "tell me about" in query or "give me information about" in query:
-            try:
-                query = query.replace("wikipedia", "")
-                query = query.replace("according", "")
-                query = query.replace("to", "")
-                query = query.replace("friday", "")
-                query = query.replace("tell me about", "")
-                query = query.replace("give me information about", "")
-                result = wikipedia.summary(query, sentences=5)
-                speak('According to me')
-                print(result)
-                speak(result)
-            except Exception:
-                speak("No result Found...")
+        # elif "who" in que ry or  query or "wikipedia" in query or "tell me about" in query or "give me information about" in query:
+        #     try:
+        #         query = query.replace("wikipedia", "")
+        #         query = query.replace("according", "")
+        #         query = query.replace("to", "")
+        #         query = query.replace("friday", "")
+        #         query = query.replace("tell me about", "")
+        #         query = query.replace("give me information about", "")
+        #         result = wikipedia.summary(query, sentences=5)
+        #         speak('According to me')
+        #         print(result)
+        #         speak(result)
+        #     except Exception:
+        #         speak("No result Found...")
 
         elif "sleep the system" in query or "sleep system" in query:
             speak('System will be sleep in some seconds')
@@ -204,7 +206,7 @@ def TaskExecution():
             speak('Sure Boss!')
             pyautogui.hotkey("alt", "tab")
 
-        elif "search " in query:
+        elif "search" in query:
             query = query.replace("search ", "")
             url = f"https://www.google.com/search?&q={query}"
             webbrowser.get("chrome").open_new_tab(url)
@@ -432,16 +434,6 @@ def TaskExecution():
             pyautogui.keyUp("enter")
             speak('I have launched the desired application')
 
-        elif 'set reminder' in query:
-            speak("What shall I remind you about?")
-            text = takecommand()
-            speak("In how many minutes?")
-            local_time = int(takecommand())
-            local_time = local_time * 60
-            time.sleep(local_time)
-            speak(f"it's a reminder for {text}")
-            speak(f"it's a reminder for {text}")
-            speak(f"it's a reminder for {text}")
 
 if __name__ == "__main__":
     while True:
