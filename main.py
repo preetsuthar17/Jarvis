@@ -45,28 +45,7 @@ def wish():
         speak(f"Good Evening sir. it has been {strTime}")
 
 def schedule_checker():
-    today_day = date.today().strftime("%A")
-
-    if today_day == "Monday":
-        speak(f"It's {today_day}, Enjoy Your day sir!")
-
-    elif today_day == "Tuesday":
-        speak(f"It's {today_day}, Enjoy Your day sir!")
-
-    elif today_day == "Wednesday":
-        speak(f"It's {today_day}, Enjoy Your day sir!")
-
-    elif today_day == "Thursday":
-        speak(f"It's {today_day}, Enjoy Your day sir!")
-
-    elif today_day == "Friday":
-        speak(f"It's {today_day}, Enjoy Your day sir!")
-
-    elif today_day == "Saturday":
-        speak(f"It's {today_day}, Enjoy Your day sir!")
-
-    elif today_day == "Sunday":
-        speak(f"It's {today_day}, Enjoy Your day sir!")
+    speak(f"It's {date.today().strftime("%A")}, Enjoy Your day sir!")
 
 wish()
 schedule_checker()
