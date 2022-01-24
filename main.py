@@ -113,7 +113,7 @@ def GoogleSearch(term):
         speak(how_to_func[0].summary)
 
     else:
-        search = wikipedia.summary(Query,6)
+        search = wikipedia.summary(Query,3)
         speak(f"According to me, {search}") 
 
 def TaskExecution():
@@ -488,7 +488,7 @@ def TaskExecution():
             query = query.replace("google", "")
             query = query.replace("search", "")
             query = query.replace("jarvis", "")
-            webbrowser.open(query)
+            webbrowser.get('chrome').open(query)
             
         # Arduino Automation!   
 
