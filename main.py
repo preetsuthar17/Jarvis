@@ -36,7 +36,7 @@ ser = serial.Serial('COM15', 9600)
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 170)
+engine.setProperty('rate', 185)
 
 def speak(audio):
     engine.say(audio)
@@ -59,27 +59,12 @@ if (temp>str(20) and hour>18):
 else:
     weather = "It's bright sunny day outside!"
 
-def wish():
-    hour = int(datetime.datetime.now().hour)
-    strTime = datetime.datetime.now().strftime("%I:%M %p")
-    today_day = date.today().strftime("%A")
-
-    if hour >= 0 and hour < 12:
-        print(f"Good Morning, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
-        speak(f"Good Morning, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
-    elif hour >= 12 and hour < 18:
-        print(f"Good Afternoon, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
-        speak(f"Good Afternoon, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
-    else:
-        print(f"Good Evening, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
-        speak(f"Good Evening, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
-        
 def takecommand():  
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
         print("[Listening]...")
-        audio = r.listen(source, timeout=8,phrase_time_limit=8)
+        audio = r.listen(source, phrase_time_limit=2)
         r.pause_threshold = 0.5
     try:
         query = r.recognize_google(audio, language='en-us')
@@ -115,6 +100,21 @@ def GoogleSearch(term):
     else:
         search = wikipedia.summary(Query,3)
         speak(f"According to me, {search}") 
+
+def wish():
+    hour = int(datetime.datetime.now().hour)
+    strTime = datetime.datetime.now().strftime("%I:%M %p")
+    today_day = date.today().strftime("%A")
+
+    if hour >= 0 and hour < 12:
+        print(f"Good Morning, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
+        speak(f"Good Morning, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
+    elif hour >= 12 and hour < 18:
+        print(f"Good Afternoon, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
+        speak(f"Good Afternoon, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
+    else:
+        print(f"Good Evening, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
+        speak(f"Good Evening, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
 
 def TaskExecution():
 
