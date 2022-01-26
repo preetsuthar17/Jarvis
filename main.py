@@ -1,65 +1,64 @@
 import datetime
-import math
 import os
 import random
 import time
 import webbrowser
 from datetime import date
-import re
-import requests
 import psutil
 import pyautogui
 import pyjokes
-import PyPDF2
 import pyttsx3
 import speech_recognition as sr
 import wikipedia
 import winshell
 import wolframalpha
 from requests import get
-from selenium import webdriver
 from urllib.request import urlopen
 import json
-import subprocess
-import pyfirmata
-from bs4 import BeautifulSoup   
 import pywhatkit
-import GoogleImageScrapper
-import smtplib
 import winsound
 from pywikihow import WikiHow, search_wikihow
 from src.functions.convert_size import convert_size
+import phonenumbers
+import folium
+from phonenumbers import geocoder
+from opencage.geocoder import OpenCageGeocode
+from phonenumbers import carrier
 
 import serial
+
 ser = serial.Serial('COM15', 9600)
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 190)
+engine.setProperty('rate', 194)
+
 
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
-                           
+
+
 winsound.PlaySound('D:\\Coding\\Public-Codes\\jarvis\\src\\files\\startup_checking.wav', winsound.SND_FILENAME)
 
 hour = int(datetime.datetime.now().hour)
 app = wolframalpha.Client('9U8EKY-LG937R6772')
 fetch_temp = app.query("temperature")
-temp = (next(fetch_temp.results).text)
+temp = next(fetch_temp.results).text
 
-if (temp<str(20) and hour >=0 and hour <18):
+if temp < str(20) and 0 <= hour < 18:
     weather = "Make sure to wear your jackets before yeeting outside! it's cold night!"
-else:
-        weather="Make sure to wear your jackets before yeeting outside!"
+else:   
+    weather = "Make sure to wear your jackets before yeeting outside!"
 
-if (temp>str(20) and hour>18):
+if temp > str(20) and hour > 18:
     weather = "It's Beautiful night outside!"
 else:
     weather = "It's bright sunny day outside!"
 
-def takecommand():  
+
+def takecommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
@@ -74,7 +73,8 @@ def takecommand():
     except Exception:
         return "None"
     return query
-    
+
+
 def GoogleSearch(term):
     query = term.replace('jarvis', "")
     # query = query.replace("what is", "")
@@ -85,7 +85,7 @@ def GoogleSearch(term):
     # query = query.replace("who is", "")
     query = query.replace("according to you", "")
     writeab = str(query)
-    
+
     Query = str(term)
     # os.startfile("D:\\Coding\\Public-Codes\\Jarvis\\database\\ExtraPro\\start.py")
     pywhatkit.search(Query)
@@ -98,26 +98,27 @@ def GoogleSearch(term):
         speak(how_to_func[0].summary)
 
     else:
-        search = wikipedia.summary(Query,3)
-        speak(f"According to me, {search}") 
+        search = wikipedia.summary(Query, 3)
+        speak(f"According to me, {search}")
+
 
 def wish():
     hour = int(datetime.datetime.now().hour)
     strTime = datetime.datetime.now().strftime("%I:%M %p")
     today_day = date.today().strftime("%A")
 
-    if hour >= 0 and hour < 12:
+    if 0 <= hour < 12:
         print(f"Good Morning, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
         speak(f"Good Morning, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
-    elif hour >= 12 and hour < 18:
+    elif 12 <= hour < 18:
         print(f"Good Afternoon, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
         speak(f"Good Afternoon, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
     else:
         print(f"Good Evening, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
         speak(f"Good Evening, it has been {strTime}. It's {today_day}, The temperature outside is {temp}, {weather}")
 
-def TaskExecution():
 
+def TaskExecution():
     while True:
 
         strTime = datetime.datetime.now().strftime("%I:%M %p")
@@ -128,7 +129,6 @@ def TaskExecution():
         webbrowser.register(
             'chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 
-            
         app = wolframalpha.Client('9U8EKY-LG937R6772')
 
         if "good morning" in query:
@@ -205,7 +205,9 @@ def TaskExecution():
             speak("My name is jarvis.")
 
         elif "what can you do" in query:
-            speak("I can do so many things such as calculating sums, doing computer tasks, some jokes and so many other things.")
+            speak(
+                "I can do so many things such as calculating sums, doing computer tasks, some jokes and so many other "
+                "things.")
 
         elif "who are you" in query:
             speak("I Am jarvis, I am personal assistant, Made by my Boss, Preet")
@@ -222,16 +224,17 @@ def TaskExecution():
         elif "help me" in query or "help" in query:
             speak("Ok Boss, Just tell me your query.")
 
-        elif "who made you" in query or "who created you" in query or "who is your owner" in query or "who is your boss?" in query:
+        elif "who made you" in query or "who created you" in query or "who is your owner" in query or "who is your " \
+                                                                                                      "boss?" in query:
             speak("I was created by my Boss prit.")
-        
+
         elif "system stats" in query or "check system" in query:
             def system_stats():
                 cpu_stats = str(psutil.cpu_percent())
                 # battery_percent = psutil.sensors_battery().percent
                 memory_in_use = convert_size(psutil.virtual_memory().used)
                 total_memory = convert_size(psutil.virtual_memory().total)
-                final_res = f"Currently {cpu_stats} percent of CPU, {memory_in_use} of RAM out of total {total_memory}  is being used."
+                final_res = f"Currently {cpu_stats} percent of CPU, {memory_in_use} of RAM out of total {total_memory}  is being used. "
                 return final_res
 
             sys_info = system_stats()
@@ -262,11 +265,13 @@ def TaskExecution():
 
         elif 'news' in query:
             try:
-                jsonObj = urlopen('''https://newsapi.org/v1/articles?source=the-times-of-india&sortBy=top&apiKey=697b84f285be437da7d510994deed38a''')
+                jsonObj = urlopen(
+                    '''https://newsapi.org/v1/articles?source=the-times-of-india&sortBy=top&apiKey
+                    =697b84f285be437da7d510994deed38a''')
                 data = json.load(jsonObj)
                 i = 1
                 speak('here are some top news from the times of india')
-                print('''=============== TIMES OF INDIA ============'''+ '\n')
+                print('''=============== TIMES OF INDIA ============''' + '\n')
                 for item in data['articles']:
                     print(str(i) + '. ' + item['title'] + '\n')
                     print(item['description'] + '\n')
@@ -293,7 +298,7 @@ def TaskExecution():
         elif "create new project" in query or "create a new project" in query:
             speak("should i create it in public or private database?")
             pub_pri = takecommand().lower()
-            if "private" in pub_pri: 
+            if "private" in pub_pri:
                 speak("working on a secret project sir!")
                 pyautogui.hotkey('win', 'm')
                 os.startfile("D:\\coding\\Personal-Codes")
@@ -307,7 +312,7 @@ def TaskExecution():
                 pyautogui.keyDown('enter')
                 pyautogui.keyUp('enter')
                 speak("Done, Boss")
-            elif "public" in pub_pri: 
+            elif "public" in pub_pri:
                 speak(
                     'Sir, Making a new project in your public server.')
                 pyautogui.hotkey('win', 'm')
@@ -322,10 +327,10 @@ def TaskExecution():
                 pyautogui.keyDown('enter')
                 pyautogui.keyUp('enter')
                 speak("Done, Boss")
-                    
+
         elif 'calculate' in query:
-            question=query
-            app_id="9U8EKY-LG937R6772"
+            question = query
+            app_id = "9U8EKY-LG937R6772"
             client = wolframalpha.Client(app_id)
             res = client.query(question)
             answer = next(res.results).text
@@ -338,7 +343,7 @@ def TaskExecution():
                 speak("Recycle Bin Recycled")
             except Exception:
                 speak("It's Already Empty.")
-                
+
         elif "coordinates" in query:
             coordinates = pyautogui.position()
             speak(
@@ -359,7 +364,7 @@ def TaskExecution():
             today_day = date.today().strftime("%A")
             print(f"It's {today_day}", )
             speak(f"It's {today_day}", )
-    
+
         elif "write a note" in query:
             speak("What should i write, sir")
             note = takecommand()
@@ -403,7 +408,7 @@ def TaskExecution():
             except Exception as e:
                 print(e)
                 speak("Something went wrong!")
-       
+
         elif "play" in query or "song" in query:
             query = query.replace("play", " ")
             query = query.replace("jarvis", " ")
@@ -411,10 +416,10 @@ def TaskExecution():
             query = query.replace("song", " ")
             pywhatkit.playonyt(query)
             speak("sure!")
-    
+
         elif "close the app" in query:
             speak("Sure!")
-            pyautogui.hotkey('alt', 'f4')            
+            pyautogui.hotkey('alt', 'f4')
 
         elif "search" in query:
             query = query.replace("jarvis", "")
@@ -451,11 +456,6 @@ def TaskExecution():
             number = number.replace("zero", "0")
             number = number.replace("plus", "+")
 
-            import phonenumbers
-            import folium
-            from phonenumbers import geocoder
-            from opencage.geocoder import OpenCageGeocode 
-            from phonenumbers import carrier
 
             Key = "2b7bb8be109842db9431dcfa0ea8eecd"
             try:
@@ -467,14 +467,14 @@ def TaskExecution():
                 service_provider = phonenumbers.parse(number[1])
                 sim_provider = carrier.name_for_number(service_provider, "en")
                 speak(f"sim service provider {sim_provider}")
-                geocoder =  OpenCageGeocode(Key)
+                geocoder = OpenCageGeocode(Key)
                 query = str(yourLocation)
                 results = geocoder.geocode(query)
                 lat = results[0]['geometry']['lat']
                 lng = results[0]['geometry']['lng']
                 speak("Latitude and Longitude Found!")
                 print(lat, lng)
-                myMap = folium.Map(location=[lat, lng], zoom_start = 9)
+                myMap = folium.Map(location=[lat, lng], zoom_start=9)
                 folium.Marker([lat, lng], popup=yourLocation).add_to((myMap))
                 speak("Saving Location File!")
                 myMap.save("myLocation.html")
@@ -483,13 +483,13 @@ def TaskExecution():
             except Exception as e:
                 print(e)
                 speak("Number not found!")
-        
+
         elif "google" in query:
             query = query.replace("google", "")
             query = query.replace("search", "")
             query = query.replace("jarvis", "")
             webbrowser.get('chrome').open(query)
-            
+
         # Arduino Automation!   
 
         elif "turn on the light" in query or "turn the light on" in query or "turn on light" in query in "light on" in query or "turn on the light" in query:
@@ -501,11 +501,13 @@ def TaskExecution():
             ser.write(b'1 bulb off')
             speak("light off!")
             print("light off!")
-                    
+
+
 if __name__ == "__main__":
     wish()
     while True:
         permission = takecommand().lower()
         if "jarvis" in permission or "wake up" in permission:
-            winsound.PlaySound('D:\\Coding\\Public-Codes\\jarvis\\src\\files\\start_up_sound.mp3', winsound.  SND_FILENAME)
+            winsound.PlaySound('D:\\Coding\\Public-Codes\\jarvis\\src\\files\\start_up_sound.mp3',
+                               winsound.SND_FILENAME)
             TaskExecution()
