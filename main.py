@@ -348,7 +348,7 @@ def TaskExecution():
             coordinates = pyautogui.position()
             speak(
                 f"coordinates are {coordinates}, I also printed in terminal, You can check it.")
-            print(
+            print(  
                 f"coordinates are {coordinates}, I also printed in terminal, You can check it.")
 
         elif "what time" in query:
