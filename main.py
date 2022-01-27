@@ -57,7 +57,6 @@ if temp > str(20) and hour > 18:
 else:
     weather = "It's bright sunny day outside!"
 
-
 def takecommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
@@ -224,8 +223,7 @@ def TaskExecution():
         elif "help me" in query or "help" in query:
             speak("Ok Boss, Just tell me your query.")
 
-        elif "who made you" in query or "who created you" in query or "who is your owner" in query or "who is your " \
-                                                                                                      "boss?" in query:
+        elif "who made you" in query or "who created you" in query or "who is your owner" in query or "who is your boss?" in query:
             speak("I was created by my Boss prit.")
 
         elif "system stats" in query or "check system" in query:
@@ -492,15 +490,15 @@ def TaskExecution():
 
         # Arduino Automation!   
 
-        elif "turn on the light" in query or "turn the light on" in query or "turn on light" in query in "light on" in query or "turn on the light" in query:
+        elif "turn on the lamp" in query or "turn the lamp on" in query or "turn on lamp" in query in "lamp on" in query or "turn on the lamp" in query:
             ser.write(b'1 bulb on')
-            speak("light on!")
-            print("light on!")
+            speak("lamp on!")
+            print("lamp on!")
 
-        elif "turn off the light" in query or "turn the light off" in query or "turn off light" in query or "light off" in query or "turn off the light" in query:
+        elif "turn off the lamp" in query or "turn the lamp off" in query or "turn off lamp" in query or "lamp off" in query or "turn off the lamp" in query:
             ser.write(b'1 bulb off')
-            speak("light off!")
-            print("light off!")
+            speak("lamp off!")
+            print("lamp off!")
 
 
 if __name__ == "__main__":
