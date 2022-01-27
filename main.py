@@ -492,12 +492,12 @@ def TaskExecution():
         # Arduino Automation!   
 
         elif "turn on the lamp" in query or "turn the lamp on" in query or "turn on lamp" in query in "lamp on" in query or "turn on the lamp" in query:
-            ser.write(b'1 bulb on')
+            ser.write(b'1 lamp on')
             speak("lamp on!")
             print("lamp on!")
 
         elif "turn off the lamp" in query or "turn the lamp off" in query or "turn off lamp" in query or "lamp off" in query or "turn off the lamp" in query:
-            ser.write(b'1 bulb off')
+            ser.write(b'1 lamp off')
             speak("lamp off!")
             print("lamp off!")
 
