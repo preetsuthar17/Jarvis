@@ -57,6 +57,7 @@ if temp > str(20) and hour > 18:
 else:
     weather = "It's bright sunny day outside!"
 
+
 def takecommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
