@@ -28,27 +28,29 @@ from pywikihow import WikiHow, search_wikihow
 from phonenumbers import geocoder
 from opencage.geocoder import OpenCageGeocode
 from phonenumbers import carrier
-from simple_chalk import chalk
-from colorama import Fore
+from colorit import *
 
 ser = serial.Serial('COM3', 9600)
 
+
+
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 190)
+engine.setProperty('voice', voices[2].id)
+engine.setProperty('rate', 192)
 
+init_colorit()
 
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
-jarvis_logo = pyfiglet.figlet_format(Fore.CYAN + "Jarvis")
-print(jarvis_logo)
+jarvis_logo = pyfiglet.figlet_format('Jarvis')
+print(color(jarvis_logo, Colors.blue))
 
 winsound.PlaySound('D:\\Coding\\Public-Codes\\jarvis\\src\\files\\startup_checking.wav', winsound.SND_FILENAME)
 
-hour = int(datetime.datetime.now().hour)
+hour = int(datetime.datetime.now().hour)    
 app = wolframalpha.Client('9U8EKY-LG937R6772')
 fetch_temp = app.query("temperature")
 temp = next(fetch_temp.results).text
@@ -65,17 +67,17 @@ else:
 
 
 def takecommand():
+    init_colorit()
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
-        print(Fore.GREEN + "[Listening]...")
+        print(color('[Listening]...', Colors.green))
         audio = r.listen(source, phrase_time_limit=2)
         r.pause_threshold = 0.5
     try:
         query = r.recognize_google(audio, language='en-us')
         print("...")
-        print(Fore.GREEN + f"You Said: {query}\n")
-
+        print(color(f'You Said: {query}\n', Colors.green))
     except Exception:
         return "None"
     return query
@@ -313,7 +315,7 @@ def TaskExecution():
                 try:
                     pyautogui.write(f"{fileName[1]}")
                 except Exception as e:
-                    speak(Fore.RED + "I wasn't able to name the project file!")
+                    speak(color("I wasn't able to name the project file!", Colors.red))
                 pyautogui.keyDown('enter')
                 pyautogui.keyUp('enter')
                 speak("Done, Boss")
@@ -328,7 +330,7 @@ def TaskExecution():
                 try:
                     pyautogui.write(f"{fileName}")
                 except Exception as e:
-                    speak(Fore.RED + "I wasn't able to name the project file!")
+                    speak(color("I wasn't able to name the project file!", Colors.red))
                 pyautogui.keyDown('enter')
                 pyautogui.keyUp('enter')
                 speak("Done, Boss")
@@ -412,7 +414,7 @@ def TaskExecution():
                 speak(next(res.results).text)
             except Exception as e:
                 print(e)
-                speak(Fore.RED + "Something went wrong!")
+                speak(color("Something went wrong!", Colors.red))
 
         elif "play" in query or "song" in query:
             query = query.replace("play", " ")
@@ -487,7 +489,7 @@ def TaskExecution():
                 os.startfile("Location.html")
             except Exception as e:
                 print(e)
-                speak(Fore.RED + "Number not found!")
+                speak(color("Number not found!", Colors.red))
 
         elif "google" in query:
             query = query.replace("google", "")
