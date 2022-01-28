@@ -68,7 +68,7 @@ else:
 
 def takecommand():
     r = sr.Recognizer()
-    with sr.Microphone() as source:
+    with sr.Microphone(device_index=0) as source:
         r.adjust_for_ambient_noise(source)
         print(color('[Listening]...', Colors.green))
         audio = r.listen(source, phrase_time_limit=2)
