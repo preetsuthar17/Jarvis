@@ -20,6 +20,7 @@ import winsound
 import phonenumbers
 import folium
 import serial
+import pyfiglet
 
 from src.functions.convert_size import convert_size
 
@@ -28,6 +29,7 @@ from phonenumbers import geocoder
 from opencage.geocoder import OpenCageGeocode
 from phonenumbers import carrier
 from simple_chalk import chalk
+from colorama import Fore
 
 ser = serial.Serial('COM3', 9600)
 
@@ -41,6 +43,8 @@ def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
+jarvis_logo = pyfiglet.figlet_format(Fore.CYAN + "Jarvis")
+print(jarvis_logo)
 
 winsound.PlaySound('D:\\Coding\\Public-Codes\\jarvis\\src\\files\\startup_checking.wav', winsound.SND_FILENAME)
 
@@ -64,13 +68,13 @@ def takecommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
-        print(chalk.green("[Listening]..."))
+        print(Fore.GREEN + "[Listening]...")
         audio = r.listen(source, phrase_time_limit=2)
         r.pause_threshold = 0.5
     try:
         query = r.recognize_google(audio, language='en-us')
         print("...")
-        print(chalk.green(f"You Said: {query}\n"))
+        print(Fore.GREEN + f"You Said: {query}\n")
 
     except Exception:
         return "None"
@@ -309,7 +313,7 @@ def TaskExecution():
                 try:
                     pyautogui.write(f"{fileName[1]}")
                 except Exception as e:
-                    speak(chalk.red("I wasn't able to name the project file!"))
+                    speak(Fore.RED + "I wasn't able to name the project file!")
                 pyautogui.keyDown('enter')
                 pyautogui.keyUp('enter')
                 speak("Done, Boss")
@@ -324,7 +328,7 @@ def TaskExecution():
                 try:
                     pyautogui.write(f"{fileName}")
                 except Exception as e:
-                    speak(chalk.red("I wasn't able to name the project file!"))
+                    speak(Fore.RED + "I wasn't able to name the project file!")
                 pyautogui.keyDown('enter')
                 pyautogui.keyUp('enter')
                 speak("Done, Boss")
@@ -408,7 +412,7 @@ def TaskExecution():
                 speak(next(res.results).text)
             except Exception as e:
                 print(e)
-                speak(chalk.red("Something went wrong!"))
+                speak(Fore.RED + "Something went wrong!")
 
         elif "play" in query or "song" in query:
             query = query.replace("play", " ")
@@ -483,7 +487,7 @@ def TaskExecution():
                 os.startfile("Location.html")
             except Exception as e:
                 print(e)
-                speak(chalk.red("Number not found!"))
+                speak(Fore.RED + "Number not found!")
 
         elif "google" in query:
             query = query.replace("google", "")
