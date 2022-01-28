@@ -27,7 +27,7 @@ from phonenumbers import carrier
 
 import serial
 
-ser = serial.Serial('COM15', 9600)
+ser = serial.Serial('COM3', 9600)
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
