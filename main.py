@@ -39,7 +39,7 @@ voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[2].id)
 engine.setProperty('rate', 192)
 
-# init_colorit()
+init_colorit()
 
 def speak(audio):
     engine.say(audio)
@@ -67,7 +67,6 @@ else:
 
 
 def takecommand():
-    # init_colorit
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
