@@ -36,8 +36,8 @@ ser = serial.Serial('COM3', 9600)
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[2].id)
-engine.setProperty('rate', 192)
+engine.setProperty('voice', voices[1].id)
+engine.setProperty('rate', 195)
 
 init_colorit()
 
@@ -71,7 +71,7 @@ def takecommand():
     with sr.Microphone(device_index=0) as source:
         r.adjust_for_ambient_noise(source)
         print(color('[Listening]...', Colors.green))
-        audio = r.listen(source, phrase_time_limit=2)
+        audio = r.listen(source, phrase_time_limit=8)
         r.pause_threshold = 0.5
     try:
         query = r.recognize_google(audio, language='en-us')
